@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
 
     private Maze mazeInstance; //the gameobject created at runtime, procedurally generated
 
+    public bool animateMaze = false;
+
     private void Start()
     {
         BeginGame();
@@ -24,7 +26,8 @@ public class GameManager : MonoBehaviour {
     private void BeginGame()
     {
         mazeInstance = Instantiate(mazePrefab) as Maze;
-        StartCoroutine(mazeInstance.Generate());
+        if (animateMaze) StartCoroutine(mazeInstance.GenerateWithDelay());
+        else mazeInstance.Generate();
     }
 
     private void RestartGame()

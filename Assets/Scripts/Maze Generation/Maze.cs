@@ -10,6 +10,9 @@ public class Maze : MonoBehaviour {
 
     public IntVector2 size;
 
+    public MazePassage passagePrefab;
+    public MazeWall wallPrefab;
+
     public float generationStepDelay;
 
     public MazeCell GetCell(IntVector2 coordinates)
@@ -18,7 +21,7 @@ public class Maze : MonoBehaviour {
     }
 
 
-    public IEnumerator Generate()
+    public IEnumerator GenerateWithDelay()
     {
         WaitForSeconds delay = new WaitForSeconds(generationStepDelay);
         cells = new MazeCell[size.x, size.z];
@@ -31,6 +34,19 @@ public class Maze : MonoBehaviour {
         }
     }
 
+    public void Generate()
+    {
+        WaitForSeconds delay = new WaitForSeconds(generationStepDelay);
+        cells = new MazeCell[size.x, size.z];
+        List<MazeCell> activeCells = new List<MazeCell>();
+        DoFirstGenerationStep(activeCells);
+        while (activeCells.Count > 0)
+        {
+            DoNextGenerationStep(activeCells);
+        }
+    }
+
+
     private void DoFirstGenerationStep(List<MazeCell> activeCells)
     {
         activeCells.Add(CreateCell(RandomCoordinates));
@@ -40,15 +56,51 @@ public class Maze : MonoBehaviour {
     {
         int currentIndex = activeCells.Count - 1;
         MazeCell currentCell = activeCells[currentIndex];
-        MazeDirection direction = MazeDirections.RandomValue;
-        IntVector2 coordinates = currentCell.coordinates + direction.ToIntVector2();
-        if (ContainsCoordinates(coordinates) && GetCell(coordinates) == null)
+        if (currentCell.IsFullyInitialized)
         {
-            activeCells.Add(CreateCell(coordinates));
+            activeCells.RemoveAt(currentIndex);
+            return;
+        }
+        MazeDirection direction = currentCell.RandomUninitializedDirection;
+        IntVector2 coordinates = currentCell.coordinates + direction.ToIntVector2();
+        if (ContainsCoordinates(coordinates))
+        {
+            MazeCell neighbor = GetCell(coordinates);
+            if (neighbor == null)
+            {
+                neighbor = CreateCell(coordinates);
+                CreatePassage(currentCell, neighbor, direction);
+                activeCells.Add(neighbor);
+            }
+            else
+            {
+                CreateWall(currentCell, neighbor, direction);
+                // No longer remove the cell here.
+            }
         }
         else
         {
-            activeCells.RemoveAt(currentIndex);
+            CreateWall(currentCell, null, direction);
+            // No longer remove the cell here.
+        }
+    }
+
+    private void CreatePassage(MazeCell cell, MazeCell otherCell, MazeDirection direction)
+    {
+        MazePassage passage = Instantiate(passagePrefab) as MazePassage;
+        passage.Initialize(cell, otherCell, direction);
+        passage = Instantiate(passagePrefab) as MazePassage;
+        passage.Initialize(otherCell, cell, direction.GetOpposite());
+    }
+
+    private void CreateWall(MazeCell cell, MazeCell otherCell, MazeDirection direction)
+    {
+        MazeWall wall = Instantiate(wallPrefab) as MazeWall;
+        wall.Initialize(cell, otherCell, direction);
+        if (otherCell != null)
+        {
+            wall = Instantiate(wallPrefab) as MazeWall;
+            wall.Initialize(otherCell, cell, direction.GetOpposite());
         }
     }
 
@@ -113,12 +165,30 @@ public static class MazeDirections
 
     public const int Count = 4;
 
+    private static Quaternion[] rotations = {
+        Quaternion.identity,
+        Quaternion.Euler(0f, 90f, 0f),
+        Quaternion.Euler(0f, 180f, 0f),
+        Quaternion.Euler(0f, 270f, 0f)
+    };
+    private static MazeDirection[] opposites = {
+        MazeDirection.South,
+        MazeDirection.West,
+        MazeDirection.North,
+        MazeDirection.East
+    };
+
     public static MazeDirection RandomValue
     {
         get
         {
             return (MazeDirection)Random.Range(0, Count);
         }
+    }
+
+    public static MazeDirection GetOpposite(this MazeDirection direction)
+    {
+        return opposites[(int)direction];
     }
 
     private static IntVector2[] vectors = {
@@ -131,5 +201,11 @@ public static class MazeDirections
     public static IntVector2 ToIntVector2(this MazeDirection direction) //this keyword makes this behave as an instance method of MazeDirection
     {
         return vectors[(int)direction];
+    }
+
+
+    public static Quaternion ToRotation(this MazeDirection direction)
+    {
+        return rotations[(int)direction];
     }
 }
