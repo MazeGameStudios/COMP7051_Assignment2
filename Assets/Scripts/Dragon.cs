@@ -19,12 +19,14 @@ public class Dragon : MonoBehaviour {
         nextTarget = destinations[0];
         distance = 0f;
         currentSpeed = speed;
+        dragonAnimator.SetBool("isFlying", true);
     }
 
     void Update () {
 
         if(distance < 1)
         {
+            /*
             float choice = Random.Range(0, 3);               
             if(choice == 0)
             {
@@ -42,7 +44,8 @@ public class Dragon : MonoBehaviour {
                 dragonAnimator.SetBool("isFlying", false);
                 dragonAnimator.SetFloat("speed", 1.0f);
                 currentSpeed = speed * 2.0f;
-            }
+            }*/
+
             SetTarget();
         }
         else
@@ -64,9 +67,10 @@ public class Dragon : MonoBehaviour {
     public void MoveTowardsTarget(Transform target)
     {
         float step = speed * Time.deltaTime;
-        distance = Vector3.Distance(transform.position, target.position);
+        Vector3 offset = new Vector3(0, 100f, 0);
+        distance = Vector3.Distance(transform.position, target.position + offset);
         transform.LookAt(target);
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        transform.position = Vector3.MoveTowards(transform.position, target.position + offset, step);
     }
 
 

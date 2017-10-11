@@ -1836,7 +1836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4728427047055060}
   - component: {fileID: 95907623195135274}
-  - component: {fileID: 114715433382688404}
+  - component: {fileID: 114908624369068558}
   m_Layer: 0
   m_Name: KuroDragPrefab
   m_TagString: Untagged
@@ -4734,9 +4734,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1636528867538120}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 224.40594, y: 33.66, z: 81.83}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 4936281210651934}
   - {fileID: 4034877331046324}
@@ -5440,15 +5440,15 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114715433382688404
+--- !u!114 &114908624369068558
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1636528867538120}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bd63e80db56a8441876aa2a3b938380, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f2886d593c6e824bb063e93d0e43bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destinations:
@@ -5456,7 +5456,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  speed: 15
+  - {fileID: 0}
+  - {fileID: 0}
+  speed: 35
   currentSpeed: 0
   nextTarget: {fileID: 0}
   distance: 0
