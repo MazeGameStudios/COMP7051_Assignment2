@@ -51,6 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6335944740627d9439f91921ae2066dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallMaterials:
+  - {fileID: 2100000, guid: 037c10e8a9c9c5e47a726216732d17d8, type: 2}
+  - {fileID: 2100000, guid: f1a8571c3ef3f4d46bbdfb8b2ecdec74, type: 2}
+  - {fileID: 2100000, guid: 59cf63250acfc334288c35253c616d40, type: 2}
+  - {fileID: 2100000, guid: b2394c0eb4527fe489f9cf53d290baeb, type: 2}
   cellPrefab: {fileID: 114115348800488752, guid: 3014ec5dc16d02341bd0d0d4f15bcc4b,
     type: 2}
   size:

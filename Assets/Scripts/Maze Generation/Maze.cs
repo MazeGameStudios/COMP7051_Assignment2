@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Maze : MonoBehaviour {
 
+    public Material[] wallMaterials;
+
     public MazeCell cellPrefab;
 
     private MazeCell[,] cells;
@@ -97,10 +99,13 @@ public class Maze : MonoBehaviour {
     {
         MazeWall wall = Instantiate(wallPrefab) as MazeWall;
         wall.Initialize(cell, otherCell, direction);
+        wall.GetComponentInChildren<Renderer>().material = wallMaterials[(int)direction];
+
         if (otherCell != null)
         {
             wall = Instantiate(wallPrefab) as MazeWall;
             wall.Initialize(otherCell, cell, direction.GetOpposite());
+            wall.GetComponentInChildren<Renderer>().material = wallMaterials[(int)direction.GetOpposite()];
         }
     }
 

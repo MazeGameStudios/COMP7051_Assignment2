@@ -7890,6 +7890,7 @@ MonoBehaviour:
   mazePrefab: {fileID: 114135259814908828, guid: 21ee2b9009478e8498d93543b7e2a947,
     type: 2}
   animateMaze: 1
+  spawnLocation: {fileID: 1482766302}
 --- !u!1 &1868665640
 GameObject:
   m_ObjectHideFlags: 0
