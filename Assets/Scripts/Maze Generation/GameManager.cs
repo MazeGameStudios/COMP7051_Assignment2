@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public Transform spawnLocation;     // attempted spawn location
+
     public Maze mazePrefab;
-
     private Maze mazeInstance; //the gameobject created at runtime, procedurally generated
-
     public bool animateMaze = false;
 
-    public Transform spawnLocation; 
+    public GameObject platformPrefab;
+    public float platformBorderSize = 1f;
 
 
-    private void Start()
+    private void Awake()
     {
         BeginGame();
     }
@@ -28,9 +29,25 @@ public class GameManager : MonoBehaviour {
 
     private void BeginGame()
     {
-        mazeInstance = Instantiate(mazePrefab, spawnLocation.position, spawnLocation.rotation) as Maze;
+        // Create an instance of the maze (but don't generate yet)
+        var mazeObject = Instantiate(mazePrefab);
+        mazeInstance = mazeObject.GetComponent<Maze>();
+
+        // Calculate maze position
+        var platformTopY = FindFloorLevelForMaze();
+
+        // Move maze
+        var actualSpawnPosition = new Vector3(spawnLocation.position.x, platformTopY, spawnLocation.position.z);
+        mazeObject.transform.position = actualSpawnPosition;
+        mazeObject.transform.rotation = spawnLocation.rotation;
+        // Generate maze
         if (animateMaze) StartCoroutine(mazeInstance.GenerateWithDelay());
         else mazeInstance.Generate();
+
+        // Spawn the platform
+        var mazeSize = mazeInstance.GetExtents();
+        var platform = Instantiate(platformPrefab, actualSpawnPosition + (Vector3.down * 25f) + (Vector3.down * 0.01f), spawnLocation.rotation);
+        platform.transform.localScale = new Vector3(mazeSize.x + platformBorderSize, 50f, mazeSize.z + platformBorderSize);   //hard coded height
     }
 
     private void RestartGame()
@@ -38,6 +55,26 @@ public class GameManager : MonoBehaviour {
         StopAllCoroutines();
         Destroy(mazeInstance.gameObject);
         BeginGame();
+    }
+
+    // Prevent the maze from clipping into the terrain
+    private float FindFloorLevelForMaze()
+    {
+        RaycastHit hit;
+        if (Physics.BoxCast(
+            spawnLocation.position + Vector3.up * 100f,                             // center (start high to ensure not clipping into terrain)
+            mazeInstance.GetExtents() * 0.5f,                                       // box half extents
+            Vector3.down,                                                           // direction
+            out hit,                                                                // hit info
+            spawnLocation.rotation,                                                 // orientation
+            200f))                                                                  // max checking distance
+        {
+            return hit.point.y;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
 
