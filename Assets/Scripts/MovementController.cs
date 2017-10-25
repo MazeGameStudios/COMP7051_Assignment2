@@ -6,6 +6,16 @@ public class MovementController : MonoBehaviour{
     public float sprintModifier = 3.0f;
     public float jumpForce = 400f;
 
+    private int playerLayer, godLayer;
+
+
+    void Start()
+    {
+        playerLayer = LayerMask.NameToLayer("Player");
+        godLayer = LayerMask.NameToLayer("God");
+    }
+
+    // TODO: Change movement to be based on velocity
     void Update()
     {
         float deltaX = Input.GetAxis("Horizontal") * speed;
@@ -20,8 +30,7 @@ public class MovementController : MonoBehaviour{
 
         if (Input.GetKeyDown(KeyCode.Space)) GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
         if (Input.GetKeyDown(KeyCode.F)) GetComponent<Rigidbody>().AddForce(0, -jumpForce, 0);
-        
-
+        if (Input.GetKeyDown(KeyCode.G)) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
 
     }
 }

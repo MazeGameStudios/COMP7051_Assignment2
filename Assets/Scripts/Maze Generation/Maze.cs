@@ -1,17 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Maze : MonoBehaviour {
 
     public MazeCell cellPrefab;
+    public GameObject openingPrefab;
 
     private MazeCell[,] cells;
+    private MazeCell entrance, exit;
+    private MazeCellEdge entranceCandidate, exitCandidate;
+    private int exitCandiateLength = 0;
 
     public IntVector2 size;
 
     public MazePassage passagePrefab;
     public MazeWall wallPrefab;
+    public Material[] wallMaterials;
 
     public float generationStepDelay;
 
@@ -44,12 +52,14 @@ public class Maze : MonoBehaviour {
         {
             DoNextGenerationStep(activeCells);
         }
+        GenerateEntranceExit();
     }
 
 
     private void DoFirstGenerationStep(List<MazeCell> activeCells)
     {
-        activeCells.Add(CreateCell(RandomCoordinates));
+        var entrance = CreateCell(RandomEdgeCoordinates, 0);
+        activeCells.Add(entrance);
     }
 
     private void DoNextGenerationStep(List<MazeCell> activeCells)
@@ -68,7 +78,7 @@ public class Maze : MonoBehaviour {
             MazeCell neighbor = GetCell(coordinates);
             if (neighbor == null)
             {
-                neighbor = CreateCell(coordinates);
+                neighbor = CreateCell(coordinates, currentCell.passageLength + 1);
                 CreatePassage(currentCell, neighbor, direction);
                 activeCells.Add(neighbor);
             }
@@ -80,9 +90,37 @@ public class Maze : MonoBehaviour {
         }
         else
         {
-            CreateWall(currentCell, null, direction);
+            var wall = CreateWall(currentCell, null, direction);
             // No longer remove the cell here.
+
+            // determine if this wall can be used as an exit
+            if (currentCell.passageLength > exitCandiateLength)
+            {
+                exitCandidate = wall;
+                exitCandiateLength = currentCell.passageLength;
+            }
+
+            // determine if this wall can be used as an entrance
+            if (currentCell.passageLength == 0)
+            {
+                entranceCandidate = wall;
+            }
         }
+    }
+
+    private void GenerateEntranceExit()
+    {
+        // Set the entrance/exit
+        entrance = entranceCandidate.cell;
+        exit = exitCandidate.cell;
+
+        // Create opening objects to detect player 
+        Instantiate(openingPrefab, entrance.transform);
+        Instantiate(openingPrefab, exit.transform);
+
+        // Remove walls
+        Destroy(entranceCandidate.gameObject);
+        Destroy(exitCandidate.gameObject);
     }
 
     private void CreatePassage(MazeCell cell, MazeCell otherCell, MazeDirection direction)
@@ -93,21 +131,27 @@ public class Maze : MonoBehaviour {
         passage.Initialize(otherCell, cell, direction.GetOpposite());
     }
 
-    private void CreateWall(MazeCell cell, MazeCell otherCell, MazeDirection direction)
+    private MazeCellEdge CreateWall(MazeCell cell, MazeCell otherCell, MazeDirection direction)
     {
         MazeWall wall = Instantiate(wallPrefab) as MazeWall;
         wall.Initialize(cell, otherCell, direction);
+        wall.GetComponentInChildren<Renderer>().material = wallMaterials[(int)direction];
+
         if (otherCell != null)
         {
             wall = Instantiate(wallPrefab) as MazeWall;
             wall.Initialize(otherCell, cell, direction.GetOpposite());
+            wall.GetComponentInChildren<Renderer>().material = wallMaterials[(int)direction.GetOpposite()];
         }
+
+        return wall;
     }
 
-    private MazeCell CreateCell(IntVector2 coordinates)
+    private MazeCell CreateCell(IntVector2 coordinates, int length)
     {
         MazeCell newCell = Instantiate(cellPrefab) as MazeCell;
         cells[coordinates.x, coordinates.z] = newCell;
+        newCell.passageLength = length;
         newCell.coordinates = coordinates;
         newCell.name = "Maze Cell " + coordinates.x + ", " + coordinates.z;
         newCell.transform.parent = transform;
@@ -124,12 +168,33 @@ public class Maze : MonoBehaviour {
         }
     }
 
+    public IntVector2 RandomEdgeCoordinates
+    {
+        get
+        {
+            if (Random.value > 0.5)
+                return new IntVector2(Random.value > 0.5 ? 0 : size.x - 1, Random.Range(0, size.z));
+            else
+                return new IntVector2(Random.Range(0, size.x), Random.value > 0.5 ? 0 : size.z - 1);
+        }
+    }
+
     public bool ContainsCoordinates(IntVector2 coordinate)
     {
         return coordinate.x >= 0 && coordinate.x < size.x && coordinate.z >= 0 && coordinate.z < size.z;
     }
 
+    public bool IsEdgeCoordinate(IntVector2 coordinate)
+    {
+        return (coordinate.x == 0 || coordinate.x == size.x - 1) && (coordinate.z == 0 || coordinate.z == size.z - 1);
+    }
 
+    public Vector3 GetExtents()
+    {
+        var extents = new Vector3(size.x, 1, size.z);
+        extents.Scale(transform.localScale);
+        return extents;
+    }
 }
 
 [System.Serializable]

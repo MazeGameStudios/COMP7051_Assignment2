@@ -35,7 +35,7 @@ Transform:
   m_GameObject: {fileID: 1394625891603230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 301.58, y: 32.297, z: 189.15}
-  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 114115348800488752, guid: 3014ec5dc16d02341bd0d0d4f15bcc4b,
     type: 2}
+  openingPrefab: {fileID: 1146572373898138, guid: aabd481c3e791dc4bacf20ef54bd11ba,
+    type: 2}
   size:
     x: 20
     z: 20
@@ -60,4 +62,9 @@ MonoBehaviour:
     type: 2}
   wallPrefab: {fileID: 114280360738629124, guid: 8e5b70fdf354d8946872868d1b521773,
     type: 2}
+  wallMaterials:
+  - {fileID: 2100000, guid: 037c10e8a9c9c5e47a726216732d17d8, type: 2}
+  - {fileID: 2100000, guid: f1a8571c3ef3f4d46bbdfb8b2ecdec74, type: 2}
+  - {fileID: 2100000, guid: 59cf63250acfc334288c35253c616d40, type: 2}
+  - {fileID: 2100000, guid: b64f712a7e888764cbee13b7c9f68cf3, type: 2}
   generationStepDelay: 0.01
