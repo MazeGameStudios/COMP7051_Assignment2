@@ -23,6 +23,10 @@ public class Maze : MonoBehaviour {
 
     public float generationStepDelay;
 
+    public GameObject wolfPrefab;
+    public int mobCount = 2;
+    private int currentMobsSpawned = 0;
+
     public MazeCell GetCell(IntVector2 coordinates)
     {
         return cells[coordinates.x, coordinates.z];
@@ -60,6 +64,7 @@ public class Maze : MonoBehaviour {
     {
         var entrance = CreateCell(RandomEdgeCoordinates, 0);
         activeCells.Add(entrance);
+        entrance.name = "entrance";
     }
 
     private void DoNextGenerationStep(List<MazeCell> activeCells)
@@ -76,6 +81,7 @@ public class Maze : MonoBehaviour {
         if (ContainsCoordinates(coordinates))
         {
             MazeCell neighbor = GetCell(coordinates);
+            
             if (neighbor == null)
             {
                 neighbor = CreateCell(coordinates, currentCell.passageLength + 1);
@@ -85,6 +91,9 @@ public class Maze : MonoBehaviour {
             else
             {
                 CreateWall(currentCell, neighbor, direction);
+
+                SpawnMob(neighbor.transform);
+
                 // No longer remove the cell here.
             }
         }
@@ -105,6 +114,23 @@ public class Maze : MonoBehaviour {
             {
                 entranceCandidate = wall;
             }
+        }
+
+    }
+
+    void SpawnMob(Transform mobSpawnLocation)
+    {
+        if (currentMobsSpawned <= mobCount) //spawn wolves
+        {
+            float chance = Random.Range(0, 9);
+
+            if (chance > 3)
+            {
+                print("spawning wolf " + currentMobsSpawned);
+                Instantiate(wolfPrefab, mobSpawnLocation.position, Quaternion.identity);
+                currentMobsSpawned++;
+            }
+
         }
     }
 

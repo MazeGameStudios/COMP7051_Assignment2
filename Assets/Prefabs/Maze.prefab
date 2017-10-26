@@ -68,3 +68,5 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 59cf63250acfc334288c35253c616d40, type: 2}
   - {fileID: 2100000, guid: b64f712a7e888764cbee13b7c9f68cf3, type: 2}
   generationStepDelay: 0.01
+  wolfPrefab: {fileID: 1386270339108336, guid: 0272bcd2c5c075c46bfed54ccf8c745f, type: 2}
+  mobCount: 2
