@@ -29,7 +29,7 @@ public class Wolf : MonoBehaviour {
         nextTarget = destinations[0];
         distance = 0f;
         currentSpeed = speed;
-        StartCoroutine(ScanSurroundings(scanRadius, scanInterval));
+        //StartCoroutine(ScanSurroundings(scanRadius, scanInterval));
     }
 
     public void WolfSit(bool isSitting)
@@ -42,6 +42,10 @@ public class Wolf : MonoBehaviour {
         wolfAnimator.SetBool("isFollow", isFollowing);
     }
 
+    public void StartStalkingPlayer()
+    {
+        StartCoroutine(ScanSurroundings(scanRadius, scanInterval));
+    }
 
     private IEnumerator ScanSurroundings(float radius, float timeBetweenScans)
     {
@@ -164,7 +168,8 @@ public class Wolf : MonoBehaviour {
     {
         if(true )
         {
-            print("hit wall");
+            float val = Random.Range(0, 180);
+            transform.Rotate(0, val, 0);
         }
     }
 

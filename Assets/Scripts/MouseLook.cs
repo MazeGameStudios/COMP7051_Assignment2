@@ -13,7 +13,7 @@ public class MouseLook : MonoBehaviour {
 
     private void Start()
     {
-        playerCam = GameObject.Find("PlayerCamera").GetComponent<Camera>(); //finds the player camera
+        //playerCam = GameObject.Find("PlayerCamera").GetComponent<Camera>(); //finds the player camera
     }
 
     private void Update()
