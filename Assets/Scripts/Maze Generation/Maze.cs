@@ -128,10 +128,10 @@ public class Maze : MonoBehaviour {
             {
                 print("spawning wolf " + currentMobsSpawned);
                 GameObject wolfGo = Instantiate(wolfPrefab, mobSpawnLocation.position, Quaternion.identity);
-                if(currentMobsSpawned > 0)
+                /*if(currentMobsSpawned > 0)
                 {
                     wolfGo.GetComponent<Wolf>().StartStalkingPlayer();
-                }
+                }*/
                 currentMobsSpawned++;
             }
 

@@ -166,7 +166,7 @@ public class Wolf : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(true )
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             float val = Random.Range(0, 180);
             transform.Rotate(0, val, 0);
