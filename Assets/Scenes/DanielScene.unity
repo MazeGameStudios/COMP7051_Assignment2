@@ -6418,6 +6418,11 @@ Prefab:
       propertyPath: m_UseGravity
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 54916950691183254, guid: 51485df73b8ef384c9bd46c60be3808f,
+        type: 2}
+      propertyPath: m_Mass
+      value: 9999
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 51485df73b8ef384c9bd46c60be3808f, type: 2}
   m_IsPrefabParent: 0
