@@ -60,7 +60,7 @@ public class Dragon : MonoBehaviour {
         nextTarget = destinations[ranValue];
 
         distance = Vector3.Distance(transform.position, nextTarget.position);
-        print(nextTarget.name + " val: " + ranValue);
+        //print(nextTarget.name + " val: " + ranValue);
         //print(distance);
     }
 

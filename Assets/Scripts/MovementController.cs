@@ -8,12 +8,26 @@ public class MovementController : MonoBehaviour{
 
     private int playerLayer, godLayer;
 
+    Transform easyMaceEntrance;
 
     void Start()
     {
         playerLayer = LayerMask.NameToLayer("Player");
         godLayer = LayerMask.NameToLayer("God");
+
+        GameObject go = GameObject.Find("Maze(Clone)");
+
+        Transform[] transforms = go.GetComponentsInChildren<Transform>();
+        foreach (Transform t in transforms)
+            if (t.gameObject.name == "entrance")
+                easyMaceEntrance = t.gameObject.transform;
+
+        if(easyMaceEntrance != null)
+        {
+            transform.position = easyMaceEntrance.position;
+        }
     }
+
 
     // TODO: Change movement to be based on velocity
     void Update()

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
     private Maze mazeInstance; //the gameobject created at runtime, procedurally generated
     public bool animateMaze = false;
 
+    private GameObject platformInstance;
+
     public GameObject platformPrefab;
     public float platformBorderSize = 1f;
 
@@ -21,10 +23,8 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            RestartGame();
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape)) RestartGame();
+        
     }
 
     private void BeginGame()
@@ -46,14 +46,15 @@ public class GameManager : MonoBehaviour {
 
         // Spawn the platform
         var mazeSize = mazeInstance.GetExtents();
-        var platform = Instantiate(platformPrefab, actualSpawnPosition + (Vector3.down * 25f) + (Vector3.down * 0.01f), spawnLocation.rotation);
-        platform.transform.localScale = new Vector3(mazeSize.x + platformBorderSize, 50f, mazeSize.z + platformBorderSize);   //hard coded height
+        platformInstance = Instantiate(platformPrefab, actualSpawnPosition + (Vector3.down * 25f) + (Vector3.down * 0.01f), spawnLocation.rotation);
+        platformInstance.transform.localScale = new Vector3(mazeSize.x + platformBorderSize, 50f, mazeSize.z + platformBorderSize);   //hard coded height
     }
 
     private void RestartGame()
     {
         StopAllCoroutines();
         Destroy(mazeInstance.gameObject);
+        Destroy(platformInstance);
         BeginGame();
     }
 

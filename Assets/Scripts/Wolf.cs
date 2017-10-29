@@ -18,6 +18,9 @@ public class Wolf : MonoBehaviour {
     [SerializeField]
     private bool isStalking, isSitting;
 
+    Vector3 moveToVector;
+    private float wolfSightDistance = 3.0f;
+
     private Transform playerTransform;
 
     void Start()
@@ -26,7 +29,7 @@ public class Wolf : MonoBehaviour {
         nextTarget = destinations[0];
         distance = 0f;
         currentSpeed = speed;
-        StartCoroutine(ScanSurroundings(scanRadius, scanInterval));
+        //StartCoroutine(ScanSurroundings(scanRadius, scanInterval));
     }
 
     public void WolfSit(bool isSitting)
@@ -39,6 +42,10 @@ public class Wolf : MonoBehaviour {
         wolfAnimator.SetBool("isFollow", isFollowing);
     }
 
+    public void StartStalkingPlayer()
+    {
+        StartCoroutine(ScanSurroundings(scanRadius, scanInterval));
+    }
 
     private IEnumerator ScanSurroundings(float radius, float timeBetweenScans)
     {
@@ -74,7 +81,7 @@ public class Wolf : MonoBehaviour {
     void StalkPlayer()
     {
 
-        Vector3 targetOffset = new Vector3(0, -1, 0);
+        Vector3 targetOffset = new Vector3(0, 1, 0);
 
         float step = speed * Time.deltaTime;
         
@@ -82,8 +89,9 @@ public class Wolf : MonoBehaviour {
         
         if(distance > 5.0f)
         {
-            transform.LookAt(playerTransform);
-            transform.position = Vector3.MoveTowards(transform.position, playerTransform.position + targetOffset, step);
+            moveToVector = new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z) + targetOffset;
+            transform.LookAt(moveToVector);
+            transform.position = Vector3.MoveTowards(transform.position, moveToVector, step);
         }
 
         if (distance > stalkDistance)
@@ -115,6 +123,7 @@ public class Wolf : MonoBehaviour {
         }
         else
         {
+            /*
             if (distance < 1)
             {
                 float choice = Random.Range(0, 3);
@@ -138,9 +147,30 @@ public class Wolf : MonoBehaviour {
             else
             {
                 MoveTowardsTarget(nextTarget);
-            }
+            }*/
+
+            wolfAnimator.SetFloat("speed", 0.3f);
+            currentSpeed = speed;
+            transform.Translate(Vector3.forward * Time.deltaTime * speed);
+
+            /*
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, wolfSightDistance))
+            {
+                print("wolf hit somethang");
+            }*/
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            float val = Random.Range(0, 180);
+            transform.Rotate(0, val, 0);
+        }
     }
 
     public void SetTarget()
