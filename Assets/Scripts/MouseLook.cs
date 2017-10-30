@@ -19,8 +19,7 @@ public class MouseLook : MonoBehaviour {
     private void Update()
     {
         //Rotation via turning around
-        print(Input.GetAxis("RightStickX"));
-        float _rotationY = Input.GetAxis("RightStickX");//Input.GetAxis("Mouse X") + Input.GetAxis("RightStickX");
+        float _rotationY = Input.GetAxis("Mouse X") + Input.GetAxis("RightStickX");
          Vector3 _rotation = new Vector3(0f, _rotationY, 0f) * lookSensitivity;
         transform.Rotate(_rotation);
 
