@@ -26,7 +26,8 @@ GameObject:
   - component: {fileID: 114624201375355302}
   - component: {fileID: 54916950691183254}
   - component: {fileID: 114442236262134144}
-  m_Layer: 0
+  - component: {fileID: 114564376064877388}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -75,7 +76,7 @@ Transform:
   m_GameObject: {fileID: 1352517475872028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 274.6, y: 32.61, z: 126}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4384191475779796}
   m_Father: {fileID: 0}
@@ -244,6 +245,26 @@ MonoBehaviour:
     m_RotationOrder: 4
   material: {fileID: 2100000, guid: 16cc1953eb5c80b4785015153720f017, type: 2}
   layer: 11
+--- !u!114 &114564376064877388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1352517475872028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54233bf99bca274daf6d9cf09313206, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DayRatioStart: 1
+  currentDayRatio: 0
+  materials:
+  - {fileID: 2100000, guid: 037c10e8a9c9c5e47a726216732d17d8, type: 2}
+  - {fileID: 2100000, guid: f1a8571c3ef3f4d46bbdfb8b2ecdec74, type: 2}
+  - {fileID: 2100000, guid: 59cf63250acfc334288c35253c616d40, type: 2}
+  - {fileID: 2100000, guid: b2394c0eb4527fe489f9cf53d290baeb, type: 2}
+  - {fileID: 2100000, guid: b64f712a7e888764cbee13b7c9f68cf3, type: 2}
+  - {fileID: 2100000, guid: bd15f06155197be4585bfe6898ab69ba, type: 2}
 --- !u!114 &114573479076943672
 MonoBehaviour:
   m_ObjectHideFlags: 1

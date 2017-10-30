@@ -45,8 +45,6 @@ public class MovementController : MonoBehaviour{
 
         if (Input.GetKeyDown(KeyCode.Home) || Input.GetButtonDown("PS4Restart") ) transform.position = easyMaceEntrance.position;
         if (Input.GetKeyDown(KeyCode.Space)) GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
-        if (Input.GetKeyDown(KeyCode.F)) GetComponent<Rigidbody>().AddForce(0, -jumpForce, 0);
-        if (Input.GetKeyDown(KeyCode.G)) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
-
+        if (Input.GetButtonDown("ToggleWall")) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
     }
 }
