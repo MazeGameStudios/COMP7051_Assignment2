@@ -4,6 +4,6 @@ Left		A		Left Stick left
 Backward	S		Left Stick back
 Right		D		Left Stick right
 Look		Mouse		Right Stick
-Toggle Wall	G		O
-Toggle Day	F		[]
-Restart		Home		X
+Toggle Wall	G		[]
+Toggle Day	F		X
+Restart		Home		O
