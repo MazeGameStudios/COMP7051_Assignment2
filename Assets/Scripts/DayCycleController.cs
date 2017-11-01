@@ -4,27 +4,38 @@ using UnityEngine;
 
 public class DayCycleController : MonoBehaviour {
 
-    [Range(0,1)]
-    public float DayRatioStart = 1f;
-    public float currentDayRatio;
-    public Material[] materials;
+    public bool isDaytime = true;
+    public Material daySky, nightSky;
+    public Color dayColor = Color.white;
+    public Color nightColor = Color.blue;
 
 
     void Start()
     {
-        ChangeDayCycle(DayRatioStart);
+        ChangeDayCycle(isDaytime);
     }
 	
 	void Update ()
     {
 		if (Input.GetButtonDown("ToggleDay"))
-            ChangeDayCycle(currentDayRatio == 0 ? 1 : 0);
+            ChangeDayCycle(!isDaytime);
     }
 
-    private void ChangeDayCycle(float dayRatio)
+    private void ChangeDayCycle(bool isDay)
     {
-        currentDayRatio = dayRatio;
-        foreach (Material m in materials)
-            m.SetFloat("_DayRatio", dayRatio);
+        Debug.Log("Changing day cycle");
+
+        this.isDaytime = isDay;
+
+        if (isDay)
+        {
+            RenderSettings.skybox = daySky;
+            RenderSettings.ambientLight = dayColor;
+        } 
+        else
+        {
+            RenderSettings.skybox = nightSky;
+            RenderSettings.ambientLight = nightColor;
+        }
     }
 }
