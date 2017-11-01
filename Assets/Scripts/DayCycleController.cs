@@ -21,6 +21,7 @@ public class DayCycleController : MonoBehaviour {
             ChangeDayCycle(!isDaytime);
     }
 
+    /*
     private void ChangeDayCycle(bool isDay)
     {
         Debug.Log("Changing day cycle");
@@ -37,5 +38,32 @@ public class DayCycleController : MonoBehaviour {
             RenderSettings.skybox = nightSky;
             RenderSettings.ambientLight = nightColor;
         }
+
+        DynamicGI.UpdateEnvironment();
+
+    }*/
+
+    public Camera cam;
+
+    private void ChangeDayCycle(bool isDay)
+    {
+        Debug.Log("Changing day cycle");
+
+        this.isDaytime = isDay;
+
+        if (isDay)
+        {
+
+            cam.GetComponent<Skybox>().material = daySky;
+            RenderSettings.ambientLight = dayColor;
+        }
+        else
+        {
+            cam.GetComponent<Skybox>().material = nightSky;
+            RenderSettings.ambientLight = nightColor;
+        }
+
+        DynamicGI.UpdateEnvironment();
+
     }
 }
