@@ -6,9 +6,7 @@
 		// textures 
 		_MainTex("Texture", 2D) = "white" {}
 
-	// phong model 
-	_DayRatio("Day Ratio", Range(0,1)) = 1
-		_AmbientNightColor("Ambient Night Color", Color) = (0,0,0,0)
+		// phong model 
 		_AmbientDayColor("Ambient Day Color", Color) = (1,1,1,1)
 		_AmbientLighIntensity("Ambient Light Intensity", Range(0.0, 1.0)) = 1.0
 
@@ -20,174 +18,165 @@
 		_SpecularColor("Specular Light Color", Color) = (1,1,1,1)
 		_SpecularIntensity("Specular Light Intensity", Range(0.0, 1.0)) = 1.0
 		_SpecularShininess("Shininess", Float) = 10
-
-		// fog 
-		_FogColor("Fog Color", Color) = (0,0,0,0)
-		_FogStart("Fog Start", Float) = 1
-		_FogEnd("Fog End", Float) = 20
-		_Distance("Distance", Range(0.0, 100)) = 1.0
 	}
 
-		SubShader
+	SubShader
 	{
 		Pass
-	{
-		Tags{ "LightMode" = "ForwardBase" }
+		{
+			Tags{ "LightMode" = "ForwardBase" }
 
-		CGPROGRAM
-#pragma vertex vert
-#pragma fragment frag
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
 
-		// Shadows 
-#include "UnityCG.cginc"
-#include "Lighting.cginc"
-#pragma multi_compile_fwdbase
-#include "AutoLight.cginc"
+			// Shadows 
+			#include "UnityCG.cginc"
+			#include "Lighting.cginc"
+			#pragma multi_compile_fwdbase
+			#include "AutoLight.cginc"
 
-		// Fog 
-#pragma multi_compile_fog
+			// Fog 
+			#pragma multi_compile_fog
+			#include "UnityCG.cginc"
 
-		float _DayRatio;
-	float4 _AmbientDayColor;
-	float4 _AmbientNightColor;
-	float _AmbientLighIntensity;
-	float3 _DiffuseDirection;
-	float4 _DiffuseColor;
-	float _DiffuseIntensity;
-	float4 _SpecularPosition;
-	float4 _SpecularColor;
-	float _SpecularIntensity;
-	float _SpecularShininess;
-	float4 _FogColor;
-	float _FogEnd;
-	float _FogStart;
+			float4 _AmbientDayColor;
+			float _AmbientLighIntensity;
+			float3 _DiffuseDirection;
+			float4 _DiffuseColor;
+			float _DiffuseIntensity;
+			float4 _SpecularPosition;
+			float4 _SpecularColor;
+			float _SpecularIntensity;
+			float _SpecularShininess;
+			sampler2D _MainTex;
 
-	struct v2f
-	{
-		// Shadow 
-		float2 uv : TEXCOORD0;
-		SHADOW_COORDS(1) // put shadows data into TEXCOORD1
-			fixed3 diff : COLOR0;
-		fixed3 ambient : COLOR1;
-		float4 pos : SV_POSITION;
-		// Phong 
-		float3 normal : NORMAL;
-		float4 posWorld : TEXCOORD2;
-		float3 normalDir : TEXCOORD3;
-	};
+			struct v2f
+			{
+				// Shadow 
+				float2 uv : TEXCOORD0;
+				SHADOW_COORDS(1) // put shadows data into TEXCOORD1
+				fixed3 diff : COLOR0;
+				fixed3 ambient : COLOR1;
+				float4 pos : SV_POSITION;
+				// Phong 
+				float3 normal : NORMAL;
+				float4 posWorld : TEXCOORD2;
+				float3 normalDir : TEXCOORD3;
+				// Fog
+				UNITY_FOG_COORDS(4)
+			};
 
-	v2f vert(appdata_base v)
-	{
-		v2f o;
-		o.pos = UnityObjectToClipPos(v.vertex);
-		o.uv = v.texcoord;
-		half3 worldNormal = UnityObjectToWorldNormal(v.normal);
-		half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
-		o.diff = nl * _LightColor0.rgb;
-		o.ambient = ShadeSH9(half4(worldNormal,1));
-		// compute shadows data
-		TRANSFER_SHADOW(o)
+			v2f vert(appdata_base v)
+			{
+				v2f o;
+				o.pos = UnityObjectToClipPos(v.vertex);
+				o.uv = v.texcoord;
+				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
+				half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
+				o.diff = nl * _LightColor0.rgb;
+				o.ambient = ShadeSH9(half4(worldNormal,1));
+				// compute shadows data
+				TRANSFER_SHADOW(o)
 
-			// phong model 
-			// o.position = UnityObjectToClipPos(v.vertex);
-			o.normal = v.normal;
-		float4x4 modelMatrix = unity_ObjectToWorld;
-		float4x4 modelMatrixInverse = unity_WorldToObject;
-		o.posWorld = mul(modelMatrix, v.vertex);
-		o.normalDir = normalize(mul(float4(v.normal, 0.0), modelMatrixInverse).xyz);
-		return o;
-	}
+				// phong model 
+				// o.position = UnityObjectToClipPos(v.vertex);
+				o.normal = v.normal;
+				float4x4 modelMatrix = unity_ObjectToWorld;
+				float4x4 modelMatrixInverse = unity_WorldToObject;
+				o.posWorld = mul(modelMatrix, v.vertex);
+				o.normalDir = normalize(mul(float4(v.normal, 0.0), modelMatrixInverse).xyz);
 
-	sampler2D _MainTex;
+				// fog
+				UNITY_TRANSFER_FOG(o, o.pos);
 
-	fixed4 frag(v2f i) : SV_Target
-	{
-		// Texture + Shadow 
-		fixed4 col = tex2D(_MainTex, i.uv);
-	fixed shadow = SHADOW_ATTENUATION(i);
-	fixed3 lighting = i.diff * shadow + i.ambient;
-	col.rgb *= lighting;
+				return o;
+			}
 
-	// phong 
-	float4 diffuse = saturate(dot(_DiffuseDirection, i.normal));
 
-	float3 specularReflection;
-	float4x4 modelMatrixInverse = unity_WorldToObject;
-	float3 normalDirection = normalize(mul(float4(i.normal, 0.0), modelMatrixInverse).xyz);
+			fixed4 frag(v2f i) : SV_Target
+			{
+				// Texture + Shadow 
+				fixed4 tex = tex2D(_MainTex, i.uv);
+				fixed shadow = SHADOW_ATTENUATION(i);
+				fixed3 lighting = i.diff * shadow + i.ambient;
+				tex.rgb *= lighting;
 
-	float3 viewDirection = normalize(_WorldSpaceCameraPos - i.posWorld.xyz);
-	float3 lightDirection;
-	float attenuation;
-	if (0.0 == _SpecularPosition.w) // directional light?
-	{
-		attenuation = 1.0; // no attenuation
-		lightDirection = normalize(_SpecularPosition.xyz);
-	}
-	else // point or spot light
-	{
-		float3 vertexToLightSource =
-			_SpecularPosition.xyz - i.posWorld.xyz;
-		float distance = length(vertexToLightSource);
-		attenuation = 1.0 / distance; // linear attenuation 
-		lightDirection = normalize(vertexToLightSource);
-	}
+				// Phong 
+				float4 diffuse = saturate(dot(_DiffuseDirection, i.normal));
 
-	if (dot(normalDirection, lightDirection) < 0.0)
-		// light source on the wrong side?
-	{
-		specularReflection = float3(0.0, 0.0, 0.0);
-		// no specular reflection
-	}
-	else // light source on the right side
-	{
-		specularReflection = attenuation * _SpecularColor.rgb * pow(max(0.0, dot(
-			reflect(-lightDirection, normalDirection),
-			viewDirection)), _SpecularShininess);
-	}
+				float3 specularReflection;
+				float4x4 modelMatrixInverse = unity_WorldToObject;
+				float3 normalDirection = normalize(mul(float4(i.normal, 0.0), modelMatrixInverse).xyz);
 
-	fixed4 phong = saturate((lerp(_AmbientNightColor, _AmbientDayColor, _DayRatio) * _AmbientLighIntensity)	// ambient
-		+ (diffuse * _DiffuseColor * _DiffuseIntensity)						// diffuse 
-		+ (_SpecularIntensity * float4(specularReflection,1)));				// specular 
+				float3 viewDirection = normalize(_WorldSpaceCameraPos - i.posWorld.xyz);
+				float3 lightDirection;
+				float attenuation;
+				if (0.0 == _SpecularPosition.w)		// directional light?
+				{
+					attenuation = 1.0;				// no attenuation
+					lightDirection = normalize(_SpecularPosition.xyz);
+				}
+				else	// point or spot light
+				{
+					float3 vertexToLightSource = _SpecularPosition.xyz - i.posWorld.xyz;
+					float distance = length(vertexToLightSource);
+					attenuation = 1.0 / distance;	// linear attenuation 
+					lightDirection = normalize(vertexToLightSource);
+				}
 
-																			// fog 
-	float dist = distance(_WorldSpaceCameraPos, i.posWorld);
-	float fogRatio = 1 - saturate((_FogEnd - dist) / (_FogEnd - _FogStart));
+				if (dot(normalDirection, lightDirection) < 0.0)	// light source on the wrong side?
+				{
+					specularReflection = float3(0.0, 0.0, 0.0);	// no specular reflection
+				}
+				else	// light source on the right side
+				{
+					specularReflection = attenuation * _SpecularColor.rgb * pow(max(0.0, dot(
+						reflect(-lightDirection, normalDirection),
+						viewDirection)), _SpecularShininess);
+				}
 
-	// Combine                
-	return (phong * col) * (1 - fogRatio) + (_FogColor) * (fogRatio);
-	}
+				fixed4 phong = saturate(_AmbientDayColor * _AmbientLighIntensity	// ambient
+					+ (diffuse * _DiffuseColor * _DiffuseIntensity)					// diffuse 
+					+ (_SpecularIntensity * float4(specularReflection,1)));			// specular 
 
-		// Notes: saturate clamps between 0-1
+				// Fog
+				fixed4 result = tex * phong;
+				UNITY_APPLY_FOG(i.fogCoord, result);
 
-		ENDCG
-	}
+				return result;
+			}
+			ENDCG
+		}
 
 		Pass
-	{
-		Tags{ "LightMode" = "ShadowCaster" }
+		{
+			Tags{ "LightMode" = "ShadowCaster" }
 
-		CGPROGRAM
-#pragma vertex vert
-#pragma fragment frag
-#pragma multi_compile_shadowcaster
-#include "UnityCG.cginc"
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_shadowcaster
+			#include "UnityCG.cginc"
 
-		struct v2f {
-		V2F_SHADOW_CASTER;
-	};
+			struct v2f 
+			{
+				V2F_SHADOW_CASTER;
+			};
 
-	v2f vert(appdata_base v)
-	{
-		v2f o;
-		TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
-			return o;
-	}
+			v2f vert(appdata_base v)
+			{
+				v2f o;
+				TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+				return o;
+			}
 
-	float4 frag(v2f i) : SV_Target
-	{
-		SHADOW_CASTER_FRAGMENT(i)
-	}
-		ENDCG
-	}
+			float4 frag(v2f i) : SV_Target
+			{
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+
+			ENDCG
+		}
 	}
 }

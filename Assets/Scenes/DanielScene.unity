@@ -14,19 +14,19 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_Fog: 1
+  m_FogColor: {r: 0.4852941, g: 0.4852941, b: 0.4852941, a: 1}
+  m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_LinearFogStart: 1
+  m_LinearFogEnd: 100
   m_AmbientSkyColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -87,7 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1177,7 +1177,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1087188209516470, guid: aeaf7c82d418cca4ba9abe6be48ad68d, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4102780027125372, guid: aeaf7c82d418cca4ba9abe6be48ad68d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1476,6 +1476,24 @@ Transform:
   m_Father: {fileID: 654054410}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &501539834 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1463501067180934, guid: ec5e812e6c23a5542aff4907bdff95ed,
+    type: 2}
+  m_PrefabInternal: {fileID: 2017043151}
+--- !u!20 &501539835 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 20502104752857228, guid: ec5e812e6c23a5542aff4907bdff95ed,
+    type: 2}
+  m_PrefabInternal: {fileID: 2017043151}
+--- !u!45 &501539836
+Skybox:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 501539834}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
 --- !u!1 &517150408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3912,6 +3930,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 196244, guid: ed30b115c5fa5a14b82bd3323f750926, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed30b115c5fa5a14b82bd3323f750926, type: 2}
   m_IsPrefabParent: 0
@@ -6032,7 +6054,58 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: nightSky
+      value: 
+      objectReference: {fileID: 2100000, guid: 493bfb50af5d9424da505ba945c86600, type: 2}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: daySky
+      value: 
+      objectReference: {fileID: 2100000, guid: 3e56423e1fe71f94ea97f5bb2004a7e6, type: 2}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: dayColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: dayColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: dayColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: nightColor.r
+      value: 0.04995676
+      objectReference: {fileID: 0}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: nightColor.g
+      value: 0.16032094
+      objectReference: {fileID: 0}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: nightColor.b
+      value: 0.5661765
+      objectReference: {fileID: 0}
+    - target: {fileID: 114442236262134144, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed,
+        type: 2}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 501539835}
+    m_RemovedComponents:
+    - {fileID: 45496735291904626, guid: ec5e812e6c23a5542aff4907bdff95ed, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec5e812e6c23a5542aff4907bdff95ed, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &2032179136
