@@ -19,6 +19,7 @@
 		_SpecularIntensity("Specular Light Intensity", Range(0.0, 1.0)) = 1.0
 		_SpecularShininess("Shininess", Float) = 10
 
+		// receive lighting 
 		_Color ("Color", Color) = (1,1,1,1)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
@@ -183,6 +184,7 @@
 			ENDCG
 		}
 
+		// Receive lightning 
 		Tags { "RenderType"="Opaque" }
 		LOD 200
 		
