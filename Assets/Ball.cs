@@ -4,28 +4,20 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
-	private AudioSource bounceSfx;
-
-
-	void Awake() 
-	{
-		bounceSfx = GetComponent<AudioSource> ();
-	}
+    public AudioClip hitSfx;
 
 
 	void OnCollisionEnter(Collision collision) 
 	{
-        if (!bounceSfx.isPlaying)
-            bounceSfx.Play();
+        // play hit sound 
+        AudioSource.PlayClipAtPoint(hitSfx, collision.contacts[0].point);
 
+        // hitting an enemy 
         if (collision.transform.CompareTag ("Enemy")) {
-			// this also needs to play a sfx 
 			Destroy (gameObject);
 			Destroy (collision.gameObject);
             MazeGameManager.instance.score += 1;
-		} else {
 		}
-	
 	}
 
 }
