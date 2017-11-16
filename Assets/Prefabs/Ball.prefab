@@ -108,7 +108,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 02438f97bc3ccba46959f061b365a04f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b581aaf7854d4e84995d2bdfcb36729d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41567bf05c251540a34cceccd584916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounceSfx: {fileID: 0}
 --- !u!135 &135315388896124396
 SphereCollider:
   m_ObjectHideFlags: 1

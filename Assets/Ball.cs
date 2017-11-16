@@ -15,14 +15,15 @@ public class Ball : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) 
 	{
-		if (collision.transform.CompareTag ("Enemy")) {
+        if (!bounceSfx.isPlaying)
+            bounceSfx.Play();
+
+        if (collision.transform.CompareTag ("Enemy")) {
 			// this also needs to play a sfx 
 			Destroy (gameObject);
 			Destroy (collision.gameObject);
-			// update score 
+            MazeGameManager.instance.score += 1;
 		} else {
-			if (!bounceSfx.isPlaying)
-				bounceSfx.Play ();
 		}
 	
 	}
