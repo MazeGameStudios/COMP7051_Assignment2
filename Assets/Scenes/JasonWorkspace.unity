@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 1381813}
   - component: {fileID: 1381816}
   - component: {fileID: 1381815}
+  - component: {fileID: 1381817}
   - component: {fileID: 1381814}
   m_Layer: 0
   m_Name: _GameManager
@@ -153,20 +154,87 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wolfPrefab: {fileID: 1386270339108336, guid: 0272bcd2c5c075c46bfed54ccf8c745f, type: 2}
-  dayCycleController: {fileID: 0}
-  fogController: {fileID: 0}
   score: 0
---- !u!114 &1381814
-MonoBehaviour:
+--- !u!82 &1381814
+AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1381811}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d0ab77a7e8aa514ab532b0336377764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 2f231c43e3895654192e2f444caead01, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!114 &1381815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +262,20 @@ MonoBehaviour:
   nightSky: {fileID: 2100000, guid: 493bfb50af5d9424da505ba945c86600, type: 2}
   dayColor: {r: 1, g: 1, b: 1, a: 1}
   nightColor: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &1381817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1381811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea64f0f1a47bd74099b32817242785d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmOn: 1
+  dayBgm: {fileID: 8300000, guid: 2f231c43e3895654192e2f444caead01, type: 3}
+  nightBgm: {fileID: 8300000, guid: 8aa689d7a59e95a47adca7eeea8188fd, type: 3}
 --- !u!1 &68209225
 GameObject:
   m_ObjectHideFlags: 0

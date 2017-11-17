@@ -31,14 +31,15 @@ public class DayCycleController : MonoBehaviour {
 
         if (isDay)
         {
-
             cam.GetComponent<Skybox>().material = daySky;
             RenderSettings.ambientLight = dayColor;
+            MazeGameManager.instance.audioController.SwitchToDayBgm(true);
         }
         else
         {
             cam.GetComponent<Skybox>().material = nightSky;
             RenderSettings.ambientLight = nightColor;
+            MazeGameManager.instance.audioController.SwitchToDayBgm(false);
         }
 
         DynamicGI.UpdateEnvironment();

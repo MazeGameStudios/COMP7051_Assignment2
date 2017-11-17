@@ -13,8 +13,9 @@ public class MazeGameManager : MonoBehaviour {
     public GameObject wolfPrefab;
     public int score = 0;
 
-    private DayCycleController dayCycleController;
-    private FogController fogController;
+    public DayCycleController dayCycleController;
+    public FogController fogController;
+    public AudioController audioController;
 
 
 	void Awake()    
@@ -32,6 +33,7 @@ public class MazeGameManager : MonoBehaviour {
 
         dayCycleController = GetComponent<DayCycleController>();
         fogController = GetComponent<FogController>();
+        audioController = GetComponent<AudioController>();
     }
 
     private void Update()
