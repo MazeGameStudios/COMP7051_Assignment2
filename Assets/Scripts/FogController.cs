@@ -24,11 +24,11 @@ public class FogController : MonoBehaviour
         // TODO: Should only change BGM volume. Also needs to consider enemy modulation.
         if (on)
         {
-            AudioListener.volume = 0.5f;
+            MazeGameManager.instance.audioController.SetBgmVolumeModifier(0.5f);
         }
         else
         {
-            AudioListener.volume = 1f;
+            MazeGameManager.instance.audioController.SetBgmVolumeModifier(1f);
         }
     }
 }
