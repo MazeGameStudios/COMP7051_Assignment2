@@ -20,6 +20,8 @@ public class MazeGameManager : MonoBehaviour {
 
 	void Awake()    
     {
+        Debug.Log("MazeGameManager Awake()");
+
         if (instance == null)
         {
             instance = this;
