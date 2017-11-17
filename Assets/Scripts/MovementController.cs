@@ -55,10 +55,6 @@ public class MovementController : MonoBehaviour{
         if (Input.GetKeyDown(KeyCode.Home) || Input.GetButtonDown("PS4Restart") ) transform.position = easyMaceEntrance.position;
         if (Input.GetKeyDown(KeyCode.Space)) GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
         if (Input.GetButtonDown("ToggleWall")) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            RenderSettings.fog = !RenderSettings.fog;
-        }
         if (Input.GetMouseButtonDown (0)) {
 			ThrowBall ();
 		}
@@ -71,24 +67,5 @@ public class MovementController : MonoBehaviour{
 		Destroy (ball, ballLifetime);
 	}
 
-	/*
-	void SaveMaze()
-	{
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream fs = File.Open(Application.persistentDataPath + "/map.dat", FileMode.OpenOrCreate);
-		bf.Serialize (fs, saveObject);
-		fs.Close ();
-	}
 
-	void LoadMaze()
-	{
-		if (File.Exists (Application.persistentDataPath + "/map.dat")) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream fs = File.Open(Application.persistentDataPath + "/map.dat", FileMode.Open, FileAccess.Read);
-			GameObject data = (GameObject) bf.Deserialize (fs);
-			fs.Close ();
-			Instantiate (data);
-		}
-	}
-	*/
 }
