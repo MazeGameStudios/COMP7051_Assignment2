@@ -40,14 +40,10 @@ public class MazeGameManager : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
+        if (Input.GetButtonDown("Save"))
             SaveGame();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
+        else if (Input.GetButtonDown("Load"))
             LoadGame();
-        }
     }
 
     public void SaveGame()
@@ -70,9 +66,6 @@ public class MazeGameManager : MonoBehaviour {
         fs.Close();
     }
 
-    /* TODO: Right now load game instantiates new wolves from saved data. 
-     *  Wolves either need to conditionally generated at the start of the game or
-     *  this function needs to be updated to set wolf positions. */
     public void LoadGame()
     {
         // read from storage

@@ -18,7 +18,7 @@ public class AudioController : MonoBehaviour
 
     void Update ()
     {
-	    if (Input.GetKeyDown(KeyCode.M))
+	    if (Input.GetButtonDown("ToggleMute"))
         {
             PlayBgm(!bgmOn);
         }

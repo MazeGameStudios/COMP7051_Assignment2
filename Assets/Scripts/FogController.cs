@@ -11,10 +11,8 @@ public class FogController : MonoBehaviour
 	
 	void Update ()
     {
-		if (Input.GetKeyDown(KeyCode.U))
-        {
+		if (Input.GetButtonDown("ToggleFog"))
             TurnFog(!RenderSettings.fog);
-        }
 	}
 
     public void TurnFog(bool on)

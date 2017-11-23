@@ -4,6 +4,10 @@ Left		A		Left Stick left
 Backward	S		Left Stick back
 Right		D		Left Stick right
 Look		Mouse		Right Stick
-Toggle Wall	G		[]
-Toggle Day	F		X
+Toggle Wall	1		[]
+Toggle Day	2		X
+Toggle Fog	3		joystick button 3
+Mute/Unmute	4		joystick button 4 
+Save		5		joystick button 5
+Load		6		joystick button 6 
 Restart		Home		O
