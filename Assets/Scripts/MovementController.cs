@@ -1,10 +1,19 @@
 ﻿using UnityEngine;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Collections.Generic;
 
 public class MovementController : MonoBehaviour{
 
     public float speed = 10.0f;
     public float sprintModifier = 3.0f;
     public float jumpForce = 400f;
+
+	public GameObject ballPrefab; 
+	public Transform throwingPosition;
+	public float throwingSpeed = 10f;
+	public float ballLifetime = 2f;
 
     private int playerLayer, godLayer;
 
@@ -15,12 +24,12 @@ public class MovementController : MonoBehaviour{
         playerLayer = LayerMask.NameToLayer("Player");
         godLayer = LayerMask.NameToLayer("God");
 
-        GameObject go = GameObject.Find("Maze(Clone)");
+        //GameObject go = GameObject.Find("Maze(Clone)");
 
-        Transform[] transforms = go.GetComponentsInChildren<Transform>();
-        foreach (Transform t in transforms)
-            if (t.gameObject.name == "entrance")
-                easyMaceEntrance = t.gameObject.transform;
+        //Transform[] transforms = go.GetComponentsInChildren<Transform>();
+        //foreach (Transform t in transforms)
+        //    if (t.gameObject.name == "entrance")
+        //        easyMaceEntrance = t.gameObject.transform;
 
         if(easyMaceEntrance != null)
         {
@@ -45,8 +54,18 @@ public class MovementController : MonoBehaviour{
 
         if (Input.GetKeyDown(KeyCode.Home) || Input.GetButtonDown("PS4Restart") ) transform.position = easyMaceEntrance.position;
         if (Input.GetKeyDown(KeyCode.Space)) GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
-        if (Input.GetKeyDown(KeyCode.F)) GetComponent<Rigidbody>().AddForce(0, -jumpForce, 0);
-        if (Input.GetKeyDown(KeyCode.G)) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
-
+        if (Input.GetButtonDown("ToggleWall")) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
+        if (Input.GetMouseButtonDown (0)) {
+			ThrowBall ();
+		}
     }
+
+	void ThrowBall() 
+	{
+		var ball = Instantiate (ballPrefab, throwingPosition.position, throwingPosition.rotation);
+		ball.GetComponent<Rigidbody> ().velocity = Camera.main.transform.forward * throwingSpeed;
+		Destroy (ball, ballLifetime);
+	}
+
+
 }

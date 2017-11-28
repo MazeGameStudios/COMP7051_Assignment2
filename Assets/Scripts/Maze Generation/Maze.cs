@@ -126,7 +126,7 @@ public class Maze : MonoBehaviour {
 
             if (chance > 3)
             {
-                print("spawning wolf " + currentMobsSpawned);
+                //print("spawning wolf " + currentMobsSpawned);
                 GameObject wolfGo = Instantiate(wolfPrefab, mobSpawnLocation.position, Quaternion.identity);
                 /*if(currentMobsSpawned > 0)
                 {
