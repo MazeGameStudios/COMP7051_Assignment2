@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
         player2MovementController.enabled = true;
         statusText.text = "";
 
-        SceneManager.LoadScene("j work test", LoadSceneMode.Single);
+        SceneManager.LoadScene("Assignment2", LoadSceneMode.Single);
     }
 
     /**

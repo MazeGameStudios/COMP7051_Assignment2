@@ -55,9 +55,7 @@ public class MovementController : MonoBehaviour{
         if (Input.GetKeyDown(KeyCode.Home) || Input.GetButtonDown("PS4Restart") ) transform.position = easyMaceEntrance.position;
         if (Input.GetKeyDown(KeyCode.Space)) GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
         if (Input.GetButtonDown("ToggleWall")) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
-        if (Input.GetMouseButtonDown (0)) {
-			ThrowBall ();
-		}
+        if (Input.GetButtonDown("ThrowBall")) ThrowBall();
     }
 
 	void ThrowBall() 
@@ -66,6 +64,5 @@ public class MovementController : MonoBehaviour{
 		ball.GetComponent<Rigidbody> ().velocity = Camera.main.transform.forward * throwingSpeed;
 		Destroy (ball, ballLifetime);
 	}
-
 
 }
