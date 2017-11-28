@@ -15,7 +15,7 @@ public class Ball : MonoBehaviour {
         // hitting an enemy 
         if (collision.transform.CompareTag ("Enemy")) {
 			Destroy (gameObject);
-			Destroy (collision.gameObject);
+			// Destroy (collision.gameObject);
             MazeGameManager.instance.score += 1;
 		}
 	}

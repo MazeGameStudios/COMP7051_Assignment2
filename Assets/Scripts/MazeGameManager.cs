@@ -4,18 +4,35 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MazeGameManager : MonoBehaviour {
 
-    public static MazeGameManager instance;
-    private static string GAME_DATA_FILENAME = "gamedata.dat";
+	// EDITOR REFERENCES 
+	public Text scoreDisplay;
+	public GameObject wolfPrefab;
 
-    public GameObject wolfPrefab;
-    public int score = 0;
-
+	// PUBLIC MEMBERS 
+	public static MazeGameManager instance;
+	public int score {
+		get { 
+			return mScore; 
+		}
+		set {
+			mScore = value;
+			scoreDisplay.text = "SCORE: " + mScore;
+		}
+	}
+	[HideInInspector]
     public DayCycleController dayCycleController;
+	[HideInInspector]
     public FogController fogController;
+	[HideInInspector]
     public AudioController audioController;
+
+	// PRIVATE MEMBERS
+	private const string GAME_DATA_FILENAME = "gamedata.dat";
+	private int mScore = 0;
 
 
 	void Awake()    
@@ -54,6 +71,7 @@ public class MazeGameManager : MonoBehaviour {
 
         // save to struct 
         GameState data = new GameState();
+		data.score = score;
         data.player = new PosRot(player.transform.position, player.transform.rotation);
         data.wolf = new PosRot(wolf.transform.position, wolf.transform.rotation);
         data.fogOn = RenderSettings.fog;
@@ -77,6 +95,8 @@ public class MazeGameManager : MonoBehaviour {
             fs.Close();
 
             // update game state 
+			score = data.score;
+
             var player = GameObject.FindGameObjectWithTag("Player");
             player.transform.position = data.player.Position;
             player.transform.rotation = data.player.Rotation;
@@ -93,7 +113,7 @@ public class MazeGameManager : MonoBehaviour {
             Debug.Log("No game data found!");
         }
     }
-
+				
     [System.Serializable]
     public struct GameState
     {
