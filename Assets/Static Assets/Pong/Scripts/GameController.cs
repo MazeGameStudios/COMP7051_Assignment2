@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /** 
   * @desc This class contains the methods to control the state of the game, such as switching
@@ -69,7 +70,7 @@ public class GameController : MonoBehaviour
         player2AIController = player2.GetComponent<AI_Move>();
         player1.SetActive(false);
         player2.SetActive(false);
-        statusText.text = "5 points to win";
+        statusText.text = winScore + " points to win";
     }
 
     /**
@@ -113,6 +114,8 @@ public class GameController : MonoBehaviour
         isGameActive = false;
         player2MovementController.enabled = true;
         statusText.text = "";
+
+        SceneManager.LoadScene("j work test", LoadSceneMode.Single);
     }
 
     /**

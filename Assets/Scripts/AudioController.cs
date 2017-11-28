@@ -52,6 +52,7 @@ public class AudioController : MonoBehaviour
         var closestDist = Mathf.Infinity;
         foreach (GameObject go in wolves)
         {
+            if (go == null) break;
             var dist = Vector3.Distance(go.transform.position, player.position);
             if (dist < closestDist)
             {
