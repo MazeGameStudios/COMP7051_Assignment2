@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour
     {
         IsGameWon();
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isGameActive)
+        if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetButtonDown("ThrowBall"))) && !isGameActive)
         {
             StartPlayerVsAI();
         }
