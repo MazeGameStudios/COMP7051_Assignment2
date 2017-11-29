@@ -21,7 +21,7 @@ public class FogController : MonoBehaviour
 
         if (on)
         {
-            MazeGameManager.instance.audioController.SetBgmVolumeModifier(0.5f);
+            MazeGameManager.instance.audioController.SetBgmVolumeModifier(0.3f);
         }
         else
         {

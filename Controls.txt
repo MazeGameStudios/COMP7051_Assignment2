@@ -4,10 +4,13 @@ Left		A		Left Stick left
 Backward	S		Left Stick back
 Right		D		Left Stick right
 Look		Mouse		Right Stick
-Toggle Wall	1		[]
-Toggle Day	2		X
-Toggle Fog	3		joystick button 3
-Mute/Unmute	4		joystick button 4 
-Save		5		joystick button 5
-Load		6		joystick button 6 
-Restart		Home		O
+Throw Ball	Left CLick	R1
+Toggle F.Light	1		R3
+Toggle Wall	2		[]
+Toggle Day	3		X
+Toggle Fog	4		O
+Mute/Unmute	5		/\
+Save		6		Up arrow
+Load		7		Down arrow 
+Return to Start Home		L3
+Exit		Esc		L1

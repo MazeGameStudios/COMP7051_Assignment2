@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 public class MovementController : MonoBehaviour{
 
+    public Transform startPosition;
     public float speed = 10.0f;
     public float sprintModifier = 3.0f;
     public float jumpForce = 400f;
@@ -18,7 +19,6 @@ public class MovementController : MonoBehaviour{
 
     private int playerLayer, godLayer;
 
-    Transform easyMaceEntrance;
 
     void Start()
     {
@@ -32,9 +32,9 @@ public class MovementController : MonoBehaviour{
         //    if (t.gameObject.name == "entrance")
         //        easyMaceEntrance = t.gameObject.transform;
 
-        if(easyMaceEntrance != null)
+        if(startPosition != null)
         {
-            transform.position = easyMaceEntrance.position;
+            transform.position = startPosition.position;
         }
     }
 
@@ -49,7 +49,6 @@ public class MovementController : MonoBehaviour{
         movement = Vector3.ClampMagnitude(movement, speed);     // limits diagonal movement to the same speed as movement along an axis
         movement *= Time.deltaTime;
 
-        print(deltaX);
         if (deltaX != 0 || deltaZ != 0)
         {
             if (!footStepSound.isPlaying)
@@ -63,7 +62,7 @@ public class MovementController : MonoBehaviour{
         
         transform.Translate(movement);
 
-        if (Input.GetKeyDown(KeyCode.Home) || Input.GetButtonDown("PS4Restart") ) transform.position = easyMaceEntrance.position;
+        if (Input.GetKeyDown(KeyCode.Home) || Input.GetButtonDown("PS4Restart") ) transform.position = startPosition.position;
         if (Input.GetKeyDown(KeyCode.Space)) GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
         if (Input.GetButtonDown("ToggleWall")) transform.gameObject.layer = (transform.gameObject.layer == playerLayer) ? godLayer : playerLayer;
         if (Input.GetButtonDown("ThrowBall")) ThrowBall();

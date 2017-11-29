@@ -16,7 +16,7 @@ public class FlashLight : MonoBehaviour {
 	
 	void Update ()
     {
-	    if (Input.GetKeyDown(KeyCode.B))
+	    if (Input.GetButtonDown("ToggleFlashlight"))
         {
             SwitchFlashlight(!isOn);
         }
