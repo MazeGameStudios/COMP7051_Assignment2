@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Static Assets/Pong/Scenes/PongMain.unity
-    guid: f3c0e465e1f90fe45b85fac158fad91c
-  - enabled: 1
-    path: Assets/Scenes/j work test.unity
-    guid: 12db7bb7fff245e468ac93918bfcc237
-  - enabled: 1
     path: Assets/Scenes/Assignment2.unity
     guid: c6194c0728d9b4644b66458db679c723
+  - enabled: 1
+    path: Assets/Static Assets/Pong/Scenes/PongMain.unity
+    guid: f3c0e465e1f90fe45b85fac158fad91c
+  - enabled: 0
+    path: Assets/Scenes/j work test.unity
+    guid: 12db7bb7fff245e468ac93918bfcc237
