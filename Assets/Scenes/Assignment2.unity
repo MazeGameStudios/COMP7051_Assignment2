@@ -2986,91 +2986,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 221554090}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &235096031 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1352517475872028, guid: ec5e812e6c23a5542aff4907bdff95ed,
-    type: 2}
-  m_PrefabInternal: {fileID: 677222690}
---- !u!82 &235096040
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 235096031}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 48af49955aa7f6a48866f5faabc83659, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!1 &235309239
 GameObject:
   m_ObjectHideFlags: 0
@@ -7771,7 +7686,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 540341093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 675, y: 319, z: 0}
+  m_LocalPosition: {x: 387.5, y: 218, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1036591593}
@@ -9776,11 +9691,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114624201375355302, guid: ec5e812e6c23a5542aff4907bdff95ed,
-        type: 2}
-      propertyPath: footStepSound
-      value: 
-      objectReference: {fileID: 235096040}
     m_RemovedComponents:
     - {fileID: 114564376064877388, guid: ec5e812e6c23a5542aff4907bdff95ed, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ec5e812e6c23a5542aff4907bdff95ed, type: 2}
@@ -16475,7 +16385,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1036591592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 319, z: 0}
+  m_LocalPosition: {x: 0, y: 218, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 540341097}
@@ -27122,11 +27032,7 @@ MonoBehaviour:
   bgmOn: 1
   dayBgm: {fileID: 8300000, guid: 2f231c43e3895654192e2f444caead01, type: 3}
   nightBgm: {fileID: 8300000, guid: 8aa689d7a59e95a47adca7eeea8188fd, type: 3}
-  maxVolume: 1
-  minVolume: 0.1
-  maxRangeVolume: 20
-  minRangeVolume: 1
-  bgmVolume: 1
+  audioSource: {fileID: 403089622}
 --- !u!114 &1677705825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27165,8 +27071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e81b2e7262503d049862a89b585809d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreDisplay: {fileID: 1036591594}
   wolfPrefab: {fileID: 1386270339108336, guid: 0272bcd2c5c075c46bfed54ccf8c745f, type: 2}
-  score: 0
   dayCycleController: {fileID: 0}
   fogController: {fileID: 0}
   audioController: {fileID: 0}

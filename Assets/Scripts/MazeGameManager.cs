@@ -4,18 +4,35 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MazeGameManager : MonoBehaviour {
 
-    public static MazeGameManager instance;
-    private static string GAME_DATA_FILENAME = "gamedata.dat";
+	// EDITOR REFERENCES 
+	public Text scoreDisplay;
+	public GameObject wolfPrefab;
 
-    public GameObject wolfPrefab;
-    public int score = 0;
-
+	// PUBLIC MEMBERS 
+	public static MazeGameManager instance;
+	public int score {
+		get { 
+			return mScore; 
+		}
+		set {
+			mScore = value;
+			scoreDisplay.text = "SCORE: " + mScore;
+		}
+	}
+	[HideInInspector]
     public DayCycleController dayCycleController;
+	[HideInInspector]
     public FogController fogController;
+	[HideInInspector]
     public AudioController audioController;
+
+	// PRIVATE MEMBERS
+	private const string GAME_DATA_FILENAME = "gamedata.dat";
+	private int mScore = 0;
 
 
 	void Awake()    
@@ -40,26 +57,23 @@ public class MazeGameManager : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
+        if (Input.GetButtonDown("Save"))
             SaveGame();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
+        else if (Input.GetButtonDown("Load"))
             LoadGame();
-        }
     }
 
     public void SaveGame()
     {
         // retrieve game data
         var player = GameObject.FindGameObjectWithTag("Player");
-        var wolves = GameObject.FindGameObjectsWithTag("Enemy");
+        var wolf = GameObject.FindGameObjectWithTag("Enemy");
 
         // save to struct 
         GameState data = new GameState();
+		data.score = score;
         data.player = new PosRot(player.transform.position, player.transform.rotation);
-        data.wolves = wolves.Select(w => new PosRot(w.transform.position, w.transform.rotation)).ToArray();
+        data.wolf = new PosRot(wolf.transform.position, wolf.transform.rotation);
         data.fogOn = RenderSettings.fog;
         data.isDay = dayCycleController.isDaytime;
 
@@ -70,9 +84,6 @@ public class MazeGameManager : MonoBehaviour {
         fs.Close();
     }
 
-    /* TODO: Right now load game instantiates new wolves from saved data. 
-     *  Wolves either need to conditionally generated at the start of the game or
-     *  this function needs to be updated to set wolf positions. */
     public void LoadGame()
     {
         // read from storage
@@ -84,11 +95,16 @@ public class MazeGameManager : MonoBehaviour {
             fs.Close();
 
             // update game state 
+			score = data.score;
+
             var player = GameObject.FindGameObjectWithTag("Player");
-            player.transform.position = data.player.position;
-            player.transform.rotation = data.player.rotation;
-            foreach (PosRot pr in data.wolves)
-                Instantiate(wolfPrefab, pr.position, pr.rotation);
+            player.transform.position = data.player.Position;
+            player.transform.rotation = data.player.Rotation;
+
+            var wolf = GameObject.FindGameObjectWithTag("Enemy");
+            wolf.transform.position = data.wolf.Position;
+            wolf.transform.rotation = data.wolf.Rotation;
+
             fogController.TurnFog(data.fogOn);
             dayCycleController.ChangeDayCycle(data.isDay);
         }
@@ -97,13 +113,13 @@ public class MazeGameManager : MonoBehaviour {
             Debug.Log("No game data found!");
         }
     }
-
+				
     [System.Serializable]
     public struct GameState
     {
         public int score;
         public PosRot player;
-        public PosRot[] wolves;
+        public PosRot wolf;
         public bool fogOn;
         public bool isDay;
     }
@@ -113,8 +129,8 @@ public class MazeGameManager : MonoBehaviour {
     public struct PosRot
     {
         // Note: Vectors and Quaternions are not serializable
-        public Vector3 position { get { return new Vector3(pX, pY, pZ); } }
-        public Quaternion rotation { get { return new Quaternion(qX, qY, qZ, qW); } }
+        public Vector3 Position { get { return new Vector3(pX, pY, pZ); } }
+        public Quaternion Rotation { get { return new Quaternion(qX, qY, qZ, qW); } }
 
         private float pX, pY, pZ;
         private float qX, qY, qZ, qW;
