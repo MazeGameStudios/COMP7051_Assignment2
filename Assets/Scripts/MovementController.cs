@@ -15,6 +15,7 @@ public class MovementController : MonoBehaviour{
 	public Transform throwingPosition;
 	public float throwingSpeed = 10f;
 	public float ballLifetime = 2f;
+    public AudioSource footStepSound;
 
     private int playerLayer, godLayer;
 
@@ -42,11 +43,20 @@ public class MovementController : MonoBehaviour{
     // TODO: Change movement to be based on velocity
     void Update()
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
-        float deltaZ = Input.GetAxis("Vertical") * speed;
-        Vector3 movement = new Vector3(deltaX, 0, deltaZ);
+        float deltaX = Input.GetAxisRaw("Horizontal");
+        float deltaZ = Input.GetAxisRaw("Vertical");
+        Vector3 movement = new Vector3(deltaX * speed, 0, deltaZ * speed);
         movement = Vector3.ClampMagnitude(movement, speed);     // limits diagonal movement to the same speed as movement along an axis
         movement *= Time.deltaTime;
+
+        if (deltaX != 0 || deltaZ != 0)
+        {
+            if (!footStepSound.isPlaying)
+            {
+                footStepSound.Play();
+            }
+        }
+        
 
         if (Input.GetKey(KeyCode.LeftShift)) movement *= sprintModifier;
         
