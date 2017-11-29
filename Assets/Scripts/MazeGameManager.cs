@@ -58,9 +58,9 @@ public class MazeGameManager : MonoBehaviour {
     private void Update()
     {
         if (Input.GetButtonDown("Save"))
-            SaveGame();
+            SaveGamePrefs();
         else if (Input.GetButtonDown("Load"))
-            LoadGame();
+            LoadGamePrefs();
     }
 
     public void SaveGame()
@@ -82,6 +82,25 @@ public class MazeGameManager : MonoBehaviour {
         FileStream fs = File.Open(Application.persistentDataPath + "/" + GAME_DATA_FILENAME, FileMode.OpenOrCreate);
         bf.Serialize(fs, data);
         fs.Close();
+    }
+
+    public void SaveGamePrefs()
+    {
+        print("sav");
+        // retrieve game data
+        var player = GameObject.FindGameObjectWithTag("Player");
+        var wolf = GameObject.FindGameObjectWithTag("Enemy");
+
+        // save to struct 
+        GameState data = new GameState();
+        data.score = score;
+        data.player = new PosRot(player.transform.position, player.transform.rotation);
+        data.wolf = new PosRot(wolf.transform.position, wolf.transform.rotation);
+        data.fogOn = RenderSettings.fog;
+        data.isDay = dayCycleController.isDaytime;
+
+        // persist to storage 
+        PlayerPrefs.SetString(GAME_DATA_FILENAME, JsonUtility.ToJson(data));
     }
 
     public void LoadGame()
@@ -113,7 +132,37 @@ public class MazeGameManager : MonoBehaviour {
             Debug.Log("No game data found!");
         }
     }
-				
+
+    public void LoadGamePrefs()
+    {
+        print("load");
+        // read from storage
+        if (PlayerPrefs.HasKey(GAME_DATA_FILENAME))
+        {
+
+            string temp = PlayerPrefs.GetString(GAME_DATA_FILENAME);
+            GameState data = JsonUtility.FromJson<GameState>(temp);
+
+            // update game state 
+            score = data.score;
+
+            var player = GameObject.FindGameObjectWithTag("Player");
+            player.transform.position = data.player.Position;
+            player.transform.rotation = data.player.Rotation;
+
+            var wolf = GameObject.FindGameObjectWithTag("Enemy");
+            wolf.transform.position = data.wolf.Position;
+            wolf.transform.rotation = data.wolf.Rotation;
+
+            fogController.TurnFog(data.fogOn);
+            dayCycleController.ChangeDayCycle(data.isDay);
+        }
+        else
+        {
+            Debug.Log("No game data found!");
+        }
+    }
+
     [System.Serializable]
     public struct GameState
     {
@@ -132,7 +181,9 @@ public class MazeGameManager : MonoBehaviour {
         public Vector3 Position { get { return new Vector3(pX, pY, pZ); } }
         public Quaternion Rotation { get { return new Quaternion(qX, qY, qZ, qW); } }
 
+        [SerializeField]
         private float pX, pY, pZ;
+        [SerializeField]
         private float qX, qY, qZ, qW;
 
         public PosRot(Vector3 pos, Quaternion rot)
