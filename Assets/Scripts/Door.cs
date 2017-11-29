@@ -17,36 +17,13 @@ public class Door : MonoBehaviour {
 
     }
 
-
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            StartCoroutine(OpenDoor());
-        }
-
         if (playerTransform != null)
         {
             if (Vector3.Distance(playerTransform.position, transform.position) < 4f)
-            {
-                isClose = true;
-            }
-            else
-            {
-                isClose = false;
-            }
+                StartCoroutine(OpenDoor());
         }
 	}
-
-    void OnGUI()
-    {
-        if (isClose)
-        {
-            var centeredStyle = GUI.skin.GetStyle("Label");
-            centeredStyle.alignment = TextAnchor.UpperCenter;
-            GUI.color = Color.red;
-            GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "F1", centeredStyle);
-        }
-    }
 
     IEnumerator OpenDoor()
     {
