@@ -84,6 +84,10 @@ public class GameController : MonoBehaviour
         {
             StartPlayerVsAI();
         }
+        else if (Input.GetButtonDown("Cancel"))
+        {
+            QuitGame();
+        }
     }
 
     #region Game state management

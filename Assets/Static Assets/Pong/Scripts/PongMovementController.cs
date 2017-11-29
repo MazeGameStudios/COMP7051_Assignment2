@@ -3,8 +3,8 @@
 /** 
   * @desc This class contains the methods to control player movement
   * examples Update()
-  * @author Daniel Tian
-  * @version September 25, 2017
+  * @author Daniel Tian, Jason CHeung
+  * @version Nov 28, 2017
   * @required none
 */
 public class PongMovementController : MonoBehaviour {
@@ -20,6 +20,10 @@ public class PongMovementController : MonoBehaviour {
     //Vector that tells the player how much to move each update
     Vector2 move;
 
+    //cached Rigidbody2D to manipulate velocity with
+    Rigidbody2D rb;
+
+
     public enum DeviceInputState
     {
         MouseKeyboard,
@@ -33,6 +37,8 @@ public class PongMovementController : MonoBehaviour {
     */
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+
         move = new Vector2(0, speed);
 
         switch (m_State)
@@ -52,7 +58,6 @@ public class PongMovementController : MonoBehaviour {
                 }
                 break;
         }
-
     }
 
     /**
@@ -60,7 +65,23 @@ public class PongMovementController : MonoBehaviour {
     */
     void Update () {
 
-        if(m_State == DeviceInputState.MouseKeyboard)
+        if (moveUp == KeyCode.None || moveDown == KeyCode.None)
+        {
+            HandleInputManagerInput();  // supports player 1 controller 
+        }
+        else
+        {
+            HandleEditorInput();        // supports player 2 (keyboard only)            
+        }
+
+    }
+
+    /// <summary>
+    /// Handle input detection using editor up/down keycode bindings.
+    /// </summary>
+    void HandleEditorInput()
+    {
+        if (m_State == DeviceInputState.MouseKeyboard)
         {
             if (Input.GetKey(moveUp)) //moves up
             {
@@ -74,8 +95,9 @@ public class PongMovementController : MonoBehaviour {
             else
             {
                 move.y = 0;
-            } 
-        }else if (m_State == DeviceInputState.Controller)
+            }
+        }
+        else if (m_State == DeviceInputState.Controller)
         {
             if (Input.GetKey(KeyCode.Joystick1Button1)) //moves up - X on the ps4, for joystick 1
             {
@@ -92,7 +114,15 @@ public class PongMovementController : MonoBehaviour {
             }
         }
 
-        GetComponent<Rigidbody2D>().velocity = move;
+        rb.velocity = move;
+    }
+
+    /// <summary>
+    /// Handle input detection defined in the Input Manager.
+    /// </summary>
+    void HandleInputManagerInput()
+    {
+        rb.velocity = new Vector2(0, Input.GetAxis("Vertical") * speed);
     }
     
 
